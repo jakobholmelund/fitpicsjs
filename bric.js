@@ -1,7 +1,5 @@
-var bric_layout = function(images, type) {
+var bricLayout = function(images, type) {
   var count = images.length, box;
-
-  console.log(count);
 
   if (count >= 2) {
     var images2 = [].concat(images);
@@ -10,48 +8,48 @@ var bric_layout = function(images, type) {
     box = {
         type: 'box',
         box_type: type ? 'vertical' : 'horizontal',
-        pixel_check: false,
+        pixelCheck: false,
         leafs: {
-            one: bric_layout(images1, !type),
-            two: bric_layout(images2, !type)
+            one: bricLayout(images1, !type),
+            two: bricLayout(images2, !type)
         }
       };
 
-    box.leafs.one.parent_box_type = box.leafs.two.parent_box_type = box.box_type;
+    box.leafs.one.parentBoxType = box.leafs.two.parentBoxType = box.box_type;
 
-    box.leafs.one.pixel_check = false;
-    box.leafs.two.pixel_check = true;
+    box.leafs.one.pixelCheck = false;
+    box.leafs.two.pixelCheck = true;
 
     var dimensions;
 
     if (type) {
       dimensions = {
-        width: box.leafs.one.total_width
+        width: box.leafs.one.totalWidth
       };
     }else {
       dimensions = {
-        height: box.leafs.one.total_height
+        height: box.leafs.one.totalHeight
       };
     }
 
-    box.leafs.two = bric_layout_scale_box(box.leafs.two, dimensions);
+    box.leafs.two = bricLayoutScaleBox(box.leafs.two, dimensions);
 
     if (type) {
       // Horizontal contact; vertical box type.
-      box.total_height = box.leafs.one.total_height + box.leafs.two.total_height;
-      box.total_width = box.leafs.one.total_width;
+      box.totalHeight = box.leafs.one.totalHeight + box.leafs.two.totalHeight;
+      box.totalWidth = box.leafs.one.totalWidth;
     }else {
       // Vertical contact; horizontal box type.
-      box.total_width = box.leafs.one.total_width + box.leafs.two.total_width;
-      box.total_height = box.leafs.one.total_height;
+      box.totalWidth = box.leafs.one.totalWidth + box.leafs.two.totalWidth;
+      box.totalHeight = box.leafs.one.totalHeight;
     }
 
-    box.leafs.one.parent_total_width = box.leafs.two.parent_total_width = box.total_width;
-    box.leafs.one.parent_total_height = box.leafs.two.parent_total_height = box.total_height;
-    box.leafs.one.siblings_total_width = box.leafs.two.total_width;
-    box.leafs.one.siblings_total_height = box.leafs.two.total_height;
-    box.leafs.two.siblings_total_width = box.leafs.one.total_width;
-    box.leafs.two.siblings_total_height = box.leafs.one.total_height;
+    box.leafs.one.parentTotalWidth = box.leafs.two.parentTotalWidth = box.totalWidth;
+    box.leafs.one.parentTotalHeight = box.leafs.two.parentTotalHeight = box.totalHeight;
+    box.leafs.one.siblingsTotalWidth = box.leafs.two.totalWidth;
+    box.leafs.one.siblingsTotalHeight = box.leafs.two.totalHeight;
+    box.leafs.two.siblingsTotalWidth = box.leafs.one.totalWidth;
+    box.leafs.two.siblingsTotalHeight = box.leafs.one.totalHeight;
 
   }else if (count === 1) {
     box = images.pop();
@@ -60,18 +58,18 @@ var bric_layout = function(images, type) {
   return box;
 };
 
-var bric_layout_scale_box = function(box, dimensions) {
+var bricLayoutScaleBox = function(box, dimensions) {
   var dimensions1, dimensions2;
 
 // If it is an image - just resize it (change dimensions).
   if (box.type == 'image') {
     if (dimensions.hasOwnProperty('width')) {
-      box.total_height = (dimensions.width / box.total_width) * box.total_height;
-      box.total_width = dimensions.width;
+      box.totalHeight = (dimensions.width / box.totalWidth) * box.totalHeight;
+      box.totalWidth = dimensions.width;
     }
     else if (dimensions.hasOwnProperty('height')) {
-      box.total_width = (dimensions.height / box.total_height) * box.total_width;
-      box.total_height = dimensions.height;
+      box.totalWidth = (dimensions.height / box.totalHeight) * box.totalWidth;
+      box.totalHeight = dimensions.height;
     }
     return box;
   }
@@ -85,15 +83,15 @@ var bric_layout_scale_box = function(box, dimensions) {
     }
     // Horizontal box type; vertical contact.
     else if (box.box_type === 'horizontal') {
-      dimensions1 = {'width' : (box.leafs.one.total_width / (box.leafs.one.total_width + box.leafs.two.total_width)) * dimensions.width};
-      dimensions2 = {'width' : (box.leafs.two.total_width / (box.leafs.one.total_width + box.leafs.two.total_width)) * dimensions.width};
+      dimensions1 = {'width' : (box.leafs.one.totalWidth / (box.leafs.one.totalWidth + box.leafs.two.totalWidth)) * dimensions.width};
+      dimensions2 = {'width' : (box.leafs.two.totalWidth / (box.leafs.one.totalWidth + box.leafs.two.totalWidth)) * dimensions.width};
     }
   }
   else if (dimensions.hasOwnProperty('height')) {
     // Vertical box type; horizontal contact.
     if (box.box_type === 'vertical') {
-      dimensions1 = {'height' : (box.leafs.one.total_height / (box.leafs.one.total_height + box.leafs.two.total_height)) * dimensions.height};
-      dimensions2 = {'height' : (box.leafs.two.total_height / (box.leafs.one.total_height + box.leafs.two.total_height)) * dimensions.height};
+      dimensions1 = {'height' : (box.leafs.one.totalHeight / (box.leafs.one.totalHeight + box.leafs.two.totalHeight)) * dimensions.height};
+      dimensions2 = {'height' : (box.leafs.two.totalHeight / (box.leafs.one.totalHeight + box.leafs.two.totalHeight)) * dimensions.height};
     }
     // Horizontal box type; vertical contact.
     else if (box.box_type === 'horizontal') {
@@ -101,98 +99,148 @@ var bric_layout_scale_box = function(box, dimensions) {
     }
   }
 
-  box.leafs.one = bric_layout_scale_box(box.leafs.one, dimensions1);
-  box.leafs.two = bric_layout_scale_box(box.leafs.two, dimensions2);
+  box.leafs.one = bricLayoutScaleBox(box.leafs.one, dimensions1);
+  box.leafs.two = bricLayoutScaleBox(box.leafs.two, dimensions2);
 
   if (box.box_type === 'vertical') {
-    box.total_height = box.leafs.one.total_height + box.leafs.two.total_height;
-    box.total_width = box.leafs.one.total_width;
+    box.totalHeight = box.leafs.one.totalHeight + box.leafs.two.totalHeight;
+    box.totalWidth = box.leafs.one.totalWidth;
   }
   else if (box.box_type === 'horizontal') {
-    box.total_width = box.leafs.one.total_width + box.leafs.two.total_width;
-    box.total_height = box.leafs.one.total_height;
+    box.totalWidth = box.leafs.one.totalWidth + box.leafs.two.totalWidth;
+    box.totalHeight = box.leafs.one.totalHeight;
   }
-  box.leafs.one.parent_total_width = box.leafs.two.parent_total_width = box.total_width;
-  box.leafs.one.parent_total_height = box.leafs.two.parent_total_height = box.total_height;
-  box.leafs.one.siblings_total_width = box.leafs.two.total_width;
-  box.leafs.one.siblings_total_height = box.leafs.two.total_height;
-  box.leafs.two.siblings_total_width = box.leafs.one.total_width;
-  box.leafs.two.siblings_total_height = box.leafs.one.total_height;
+  box.leafs.one.parentTotalWidth = box.leafs.two.parentTotalWidth = box.totalWidth;
+  box.leafs.one.parentTotalHeight = box.leafs.two.parentTotalHeight = box.totalHeight;
+  box.leafs.one.siblingsTotalWidth = box.leafs.two.totalWidth;
+  box.leafs.one.siblingsTotalHeight = box.leafs.two.totalHeight;
+  box.leafs.two.siblingsTotalWidth = box.leafs.one.totalWidth;
+  box.leafs.two.siblingsTotalHeight = box.leafs.one.totalHeight;
 
   return box;
 };
 
-var bric_layout_render = function(box){
-  var output;
+var bricLayoutCreateTree = function(box, options) {
+  var output = {};
 
-  if(box.hasOwnProperty("parent_box_type")){
-    if(box.parent_box_type === 'vertical'){
-      box.total_width = box.parent_total_width;
-    } else if (box.parent_box_type === 'horizontal'){
-      box.total_height = box.parent_total_height;
+  if (box.hasOwnProperty('parentBoxType')) {
+    if (box.parentBoxType === 'vertical') {
+      box.totalWidth = box.parentTotalWidth;
+    } else if (box.parentBoxType === 'horizontal') {
+      box.totalHeight = box.parentTotalHeight;
     }
   }
 
-  if(box.pixel_check){
+  if (box.pixelCheck) {
     var pixels;
 
-    if (box.parent_box_type == 'vertical') {
-      pixels === Math.floor(box.parent_total_height) - Math.floor(box.total_height) - Math.floor(box.siblings_total_height);
-      if (pixels) {
-        box.total_height += pixels;
+    if (box.parentBoxType == 'vertical') {
+      pixels = Math.floor(box.parentTotalHeight) - Math.floor(box.totalHeight) - Math.floor(box.siblingsTotalHeight);
+      if (pixels !== 0) {
+        box.totalHeight += pixels;
       }
     }
-    else if (box.parent_box_type == 'horizontal') {
-      pixels === Math.floor(box.parent_total_width) - Math.floor(box.total_width) - Math.floor(box.siblings_total_width)
-      if (pixels) {
-        box.total_width += pixels;
+    else if (box.parentBoxType == 'horizontal') {
+      pixels = Math.floor(box.parentTotalWidth) - Math.floor(box.totalWidth) - Math.floor(box.siblingsTotalWidth);
+      if (pixels !== 0) {
+        box.totalWidth += pixels;
       }
     }
   }
 
-  if (box.type === "box"){
-    box.leafs.one.parent_total_height = box.leafs.two.parent_total_height = box.total_height;
-    box.leafs.one.parent_total_width = box.leafs.two.parent_total_width = box.total_width;
+  if (box.type === 'box') {
+    box.leafs.one.parentTotalHeight = box.leafs.two.parentTotalHeight = box.totalHeight;
+    box.leafs.one.parentTotalWidth = box.leafs.two.parentTotalWidth = box.totalWidth;
   }
 
-  if (box.type === "image"){
+  if (box.type === 'image') {
     var image_width, image_height;
 
-    image_width = Math.floor(box.total_width - 2 * box.render.border_size - box.render.gap_size);
-    image_height = Math.floor(box.total_height - 2 * box.render.border_size - box.render.gap_size);
+    image_width = Math.floor(box.totalWidth - 2 * options.border_size - options.spacing);
+    image_height = Math.floor(box.totalHeight - 2 * options.border_size - options.spacing);
 
-    var image_wrapper = document.createElement("div");
-    image_wrapper.style["float"] = "left";
-    image_wrapper.style.width = Math.floor(box.total_width - box.render.gap_size) + 'px';
-    image_wrapper.style.height = Math.floor(box.total_height - box.render.gap_size) + 'px';
-    image_wrapper.style["margin-top"] = box.render.gap_size + "px";
-    image_wrapper.style["margin-left"] = box.render.gap_size + "px";
 
-    var image = document.createElement("img");
-    image.src = box.render.image_link;
-    image.style.border = box.render.border_size + "px solid " + box.render.border_color;
-    image.width = image_width;
-    image.height = image_height;
+    var imageWrapper = {
+      style: 'float:left;width:' + Math.floor(box.totalWidth - options.spacing) + 'px;height:' + Math.floor(box.totalHeight - options.spacing) + 'px;margin-top:' + options.spacing + 'px;margin-left:' + options.spacing + 'px;',
+      image: {
+        style: 'border:' + options.border_size + 'px solid ' + box.border_color || '',
+        width: Math.floor(box.totalWidth - options.spacing),
+        height: Math.floor(box.totalHeight - options.spacing),
+        image: box
+      }
+    };
 
-    image_wrapper.appendChild(image);
+    // var image_wrapper = document.createElement("div");
+    // image_wrapper.style["float"] = "left";
+    // image_wrapper.style.width = Math.floor(box.totalWidth - options.spacing) + 'px';
+    // image_wrapper.style.height = Math.floor(box.totalHeight - options.spacing) + 'px';
+    // image_wrapper.style["margin-top"] = options.spacing + "px";
+    // image_wrapper.style["margin-left"] = options.spacing + "px";
 
-    output = image_wrapper;
+    // var image = document.createElement("img");
+    // image.src = box.render.image_link;
+    // image.style.border = options.border_size + "px solid " + box.render.border_color;
+    // image.width = image_width;
+    // image.height = image_height;
+
+    // image_wrapper.appendChild(image);
+
+    output = imageWrapper;
 
   }else if (box.type == 'box') {
-    var new_container = document.createElement("div");
+    var newContainer = {
+      style: 'float:left;width: ' + Math.floor(box.totalWidth) + 'px;height:' + Math.floor(box.totalHeight) + 'px;',
+      children: [bricLayoutCreateTree(box.leafs.one, options), bricLayoutCreateTree(box.leafs.two, options)]
+    };
 
-    new_container.style["float"] = "left";
-    new_container.style.width = Math.floor(box.total_width) + "px";
-    new_container.style.height = Math.floor(box.total_height) + "px";
+    // var new_container = document.createElement("div");
 
-    var child1 = bric_layout_render(box.leafs.one);
-    var child2 = bric_layout_render(box.leafs.two);
+    // new_container.style["float"] = "left";
+    // new_container.style.width = Math.floor(box.totalWidth) + "px";
+    // new_container.style.height = Math.floor(box.totalHeight) + "px";
 
-    new_container.appendChild(child1);
-    new_container.appendChild(child2);
+    // var child1 = bricLayoutCreateTree(box.leafs.one);
+    // var child2 = bricLayoutCreateTree(box.leafs.two);
 
-    output = new_container;
+    // new_container.appendChild(child1);
+    // new_container.appendChild(child2);
+
+    output = newContainer;
   }
 
   return output;
+};
+
+/**
+
+images = [{
+    width:
+    height:
+    ... Custom info
+}]
+
+options = {
+  width: int*,
+  height: int*,
+  spacing: int,
+  border: int
+}
+
+* Mutual Exclusive
+
+**/
+
+var bricLayoutFitPics = function(images, options) {
+  options.border = options.border || 0;
+  options.spacing = options.spacing || 0;
+
+  for (var i = 0; i < images.length; i++) {
+    images[i].type = 'image';
+    images[i].totalWidth = images[i].width + 2 * options.spacing + 2 * options.border;
+    images[i].totalHeight = images[i].height + 2 * options.spacing + 2 * options.border;
+  }
+
+  var box = bric_layout(images, false);
+  box = bricLayoutScaleBox(box, options);
+  return bricLayoutCreateTree(box, options);
 };

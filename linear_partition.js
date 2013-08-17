@@ -115,6 +115,7 @@ var linearPartitionTable = function (seq, k) {
 images = [{
     width:
     height:
+    ... Custom info
 }]
 
 options = {
@@ -125,7 +126,10 @@ options = {
 }
 
 **/
-var linearPartitionFitImages = function (images, options) {
+var linearPartitionFitPics = function (images, options) {
+    options.border = options.border || 0;
+    options.spacing = options.spacing || 0;
+
     var index = 0,
         partition, rowBuffer = [],
         rows, summedWidth = 0,
@@ -153,6 +157,12 @@ var linearPartitionFitImages = function (images, options) {
 
         for (i = 0; i < partition.length; i++) {
             var row = partition[i];
+            var rowWidth = container_width;
+
+            if(spacing){
+                rowWidth = options.containerWidth - (options.spacing * (row.length - 1));
+            }
+
             summedRatios = 0;
             rowBuffer = [];
 
