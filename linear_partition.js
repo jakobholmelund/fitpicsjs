@@ -1,20 +1,3 @@
-var Photo = function (rootUrl, width, height) {
-    this.rootUrl = rootUrl;
-    this.width = width;
-    this.height = height;
-    this.calculate_aspect_ratio();
-};
-
-Photo.prototype.resize = function (width, height) {
-    this.width = width;
-    this.height = height;
-    this.calculate_aspect_ratio();
-};
-
-Photo.prototype.calculate_aspect_ratio = function () {
-    this.aspect_ratio = this.width / this.height;
-    return this.aspect_ratio;
-};
 
 var linear_partition = function (seq, k) {
     var i, n, partition_table, table, solution, ans = [],
@@ -124,7 +107,7 @@ var linear_partition_table = function (seq, k) {
     return [table, solution];
 };
 
-var fitPics = function (photos, container_width, prefered_height) {
+var linear_partition_render = function (photos, container_width, prefered_height, padding) {
     var ideal_height, index = 0,
         partition, row_buffer = [],
         rows, summed_width = 0,
@@ -165,7 +148,7 @@ var fitPics = function (photos, container_width, prefered_height) {
             for (j = 0; j < row_buffer.length; j++) {
                 var photo = row_buffer[j];
                 summed_width += parseInt(container_width / summed_ratios * photo.aspect_ratio);
-                photo.resize(parseInt(container_width / summed_ratios * photo.aspect_ratio), parseInt(container_width / summed_ratios));
+                photo.resize(parseInt(container_width / summed_ratios * photo.aspect_ratio, 10), parseInt(container_width / summed_ratios, 10));
             }
         }
     }
