@@ -223,7 +223,8 @@ options = {
   width: int*,
   height: int*,
   spacing: int,
-  border: int
+  border: int,
+  layout: "horizontal" - default | "vertical"
 }
 
 * Mutual Exclusive
@@ -233,6 +234,15 @@ options = {
 var bricLayoutFitPics = function(images, options) {
   options.border = options.border || 0;
   options.spacing = options.spacing || 0;
+  var layout;
+
+  if(options.layout === "vertical"){
+    layout = false;
+  }else if(options.layout === "vertical"){
+    layout = true;
+  }else{
+    layout = false;
+  }
 
   for (var i = 0; i < images.length; i++) {
     images[i].type = 'image';
@@ -240,7 +250,7 @@ var bricLayoutFitPics = function(images, options) {
     images[i].totalHeight = images[i].height + 2 * options.spacing + 2 * options.border;
   }
 
-  var box = bric_layout(images, false);
+  var box = bric_layout(images, layout);
   box = bricLayoutScaleBox(box, options);
   return bricLayoutCreateTree(box, options);
 };
