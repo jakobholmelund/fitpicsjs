@@ -132,19 +132,11 @@ var bricLayoutCreateTree = function(box, options) {
   }
 
   if (box.pixelCheck) {
-    var pixels;
-
     if (box.parentBoxType == 'vertical') {
-      pixels = Math.floor(box.parentTotalHeight) - Math.floor(box.totalHeight) - Math.floor(box.siblingsTotalHeight);
-      if (pixels !== 0) {
-        box.totalHeight += pixels;
-      }
+      box.totalHeight += Math.floor(box.parentTotalHeight) - Math.floor(box.totalHeight) - Math.floor(box.siblingsTotalHeight);
     }
     else if (box.parentBoxType == 'horizontal') {
-      pixels = Math.floor(box.parentTotalWidth) - Math.floor(box.totalWidth) - Math.floor(box.siblingsTotalWidth);
-      if (pixels !== 0) {
-        box.totalWidth += pixels;
-      }
+      box.totalWidth += Math.floor(box.parentTotalWidth) - Math.floor(box.totalWidth) - Math.floor(box.siblingsTotalWidth);
     }
   }
 
