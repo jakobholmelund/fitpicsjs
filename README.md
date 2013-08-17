@@ -1,11 +1,39 @@
 fitpicsjs
 =========
 
-Hi all
+Create Beautiful image galleries with pure JavaScript, with no dependencies.
 
-This is a project that aims to make photo fitting easy. It's a library that aims to help create galleries like flickr, masonry, isotope etc. Im looking for contributers to help make this an AWESOME. The aim is to have NO dependencies, thats right. 
+Currently supporting two strategies:
+ - Linear Partition
+ - BRIC - Blocked Recursive Image Composition
 
-So far i have implemented the linear_partition algorithm in clean javascript. I've also made a small model with prototype functions for photos, but this is subject to change.
-Create beatiful galleries, NO DEPENDENCIES
+This library wont draw or measure anything for you, thats up to you and the library you are using.
+
+You pass in a list of image objects, and you get back a list of image objects with recalculated dimensions ofcourse.
+
+
+1. Usage
+
+options = {
+    containerWidth: int,
+    preferedImageHeight: int,
+    border: int,
+    spacing: int
+}
+
+linearPartitionFitPics(images, options);
+
+options = {
+    width: int*,
+    height: int*,
+    spacing: int,
+    border: int,
+    layout: "horizontal" | "vertical"
+}
+
+* Mutual Exclusive
+
+bricLayoutFitPics(images, options);
+
 
 
