@@ -148,14 +148,14 @@ var bricLayoutCreateTree = function(box, options) {
   if (box.type === 'image') {
     var image_width, image_height;
 
-    image_width = Math.floor(box.totalWidth - 2 * options.border_size - options.spacing);
-    image_height = Math.floor(box.totalHeight - 2 * options.border_size - options.spacing);
+    image_width = Math.floor(box.totalWidth - 2 * options.border - options.spacing);
+    image_height = Math.floor(box.totalHeight - 2 * options.border - options.spacing);
 
 
     var imageWrapper = {
       style: 'float:left;width:' + Math.floor(box.totalWidth - options.spacing) + 'px;height:' + Math.floor(box.totalHeight - options.spacing) + 'px;margin-top:' + options.spacing + 'px;margin-left:' + options.spacing + 'px;',
       image: {
-        style: 'border:' + options.border_size + 'px solid ' + box.border_color || '',
+        style: 'border:' + options.border + 'px solid ' + box.border_color || '',
         width: Math.floor(box.totalWidth - options.spacing),
         height: Math.floor(box.totalHeight - options.spacing),
         image: box
@@ -171,7 +171,7 @@ var bricLayoutCreateTree = function(box, options) {
 
     // var image = document.createElement("img");
     // image.src = box.render.image_link;
-    // image.style.border = options.border_size + "px solid " + box.render.border_color;
+    // image.style.border = options.border + "px solid " + box.render.border_color;
     // image.width = image_width;
     // image.height = image_height;
 
