@@ -13,6 +13,7 @@ You pass in a list of image objects, and you get back a list of image objects wi
 
 
 1. Usage
+=========
 
 options = {
     containerWidth: int,
