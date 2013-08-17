@@ -1,54 +1,54 @@
 
-var linear_partition = function (seq, k) {
-    var i, n, partition_table, table, solution, ans = [],
-        final_result = [];
+var linearPartition = function (seq, k) {
+    var i, n, partitionTable, table, solution, ans = [],
+        finalResult = [];
 
     if (k <= 0) {
-        return final_result;
+        return finalResult;
     }
 
     n = seq.length - 1;
 
     if (k > n) {
         for (i = 0; i < seq.length; i++) {
-            final_result.push([seq[i]]);
+            finalResult.push([seq[i]]);
         }
 
-        return final_result;
+        return finalResult;
     }
 
-    partition_table = linear_partition_table(seq, k);
+    partitionTable = linearPartitionTable(seq, k);
 
-    table = partition_table[0];
-    solution = partition_table[1];
+    table = partitionTable[0];
+    solution = partitionTable[1];
 
     k = k - 2;
 
     while (k >= 0) {
-        var partial_ans = [];
+        var partialAns = [];
 
         for (i = solution[n - 1][k] + 1; i < n + 1; i++) {
-            partial_ans.push(seq[i]);
+            partialAns.push(seq[i]);
         }
 
-        partial_ans = [partial_ans];
+        partialAns = [partialAns];
 
-        ans = partial_ans.concat(ans);
+        ans = partialAns.concat(ans);
         n = solution[n - 1][k];
         k = k - 1;
     }
 
     for (i = 0; i < n + 1; i++) {
-        final_result.push(seq[i]);
+        finalResult.push(seq[i]);
     }
 
-    final_result = [final_result];
+    finalResult = [finalResult];
 
-    return final_result.concat(ans);
+    return finalResult.concat(ans);
 };
 
 
-var linear_partition_table = function (seq, k) {
+var linearPartitionTable = function (seq, k) {
     var i, j, n = seq.length,
         row = [],
         table = [],
@@ -82,20 +82,20 @@ var linear_partition_table = function (seq, k) {
 
     for (i = 1; i < n; i++) {
         for (j = 1; j < k; j++) {
-            var lists_to_min = [],
+            var listToMin = [],
                 x;
             for (x = 0; x < i; x++) {
-                lists_to_min.push([Math.max.apply(Math, [table[x][j - 1], table[i][0] - table[x][0]]), x]);
+                listToMin.push([Math.max.apply(Math, [table[x][j - 1], table[i][0] - table[x][0]]), x]);
             }
 
             var result = {
                 computed: Infinity,
                 value: Infinity
             };
-            for (x = 0; x < lists_to_min.length; x++) {
-                lists_to_min[x][0] < result.computed && (result = {
-                    value: lists_to_min[x],
-                    computed: lists_to_min[x][0]
+            for (x = 0; x < listToMin.length; x++) {
+                listToMin[x][0] < result.computed && (result = {
+                    value: listToMin[x],
+                    computed: listToMin[x][0]
                 });
             }
 
@@ -107,49 +107,70 @@ var linear_partition_table = function (seq, k) {
     return [table, solution];
 };
 
-var linear_partition_render = function (photos, container_width, prefered_height, padding) {
-    var ideal_height, index = 0,
-        partition, row_buffer = [],
-        rows, summed_width = 0,
-        summed_ratios = 0,
+
+// options
+
+/**
+
+images = [{
+    width:
+    height:
+}]
+
+options = {
+    containerWidth: int,
+    preferedImageHeight: int,
+    border: int,
+    spacing: int
+}
+
+**/
+var linearPartitionFitImages = function (images, options) {
+    var index = 0,
+        partition, rowBuffer = [],
+        rows, summedWidth = 0,
+        summedRatios = 0,
         weights = [];
 
-    for (var i = 0; i < photos.length; i++) {
-        summed_width += photos[i].aspect_ratio * prefered_height;
+    for (var i = 0; i < images.length; i++) {
+        images[i].aspectRatio = images[i].width / images[i].height;
+        summedWidth += images[i].aspectRatio * options.preferedHeight;
     }
 
-    rows = Math.round(summed_width / container_width);
+    rows = Math.round(summedWidth / options.containerWidth);
 
     if (rows < 1) {
-        for (i = 0; i < photos.length; i++) {
-            photos[i].resize(parseInt(prefered_height * photo.aspect_ratio), prefered_height);
+        for (i = 0; i < images.length; i++) {
+            images[i].width = parseInt(options.preferedHeight * photo.aspectRatio, 10);
+            images[i].height = options.preferedHeight;
         }
     } else {
-        for (i = 0; i < photos.length; i++) {
-            weights.push(parseInt(photos[i].aspect_ratio * 100));
+        for (i = 0; i < images.length; i++) {
+            weights.push(parseInt(images[i].aspectRatio * 100, 10));
         }
 
-        partition = linear_partition(weights, rows);
+        partition = linearPartition(weights, rows);
 
         for (i = 0; i < partition.length; i++) {
             var row = partition[i];
-            summed_ratios = 0;
-            summed_width = 0;
-            row_buffer = [];
+            summedRatios = 0;
+            rowBuffer = [];
 
             for (j = 0; j < row.length; j++) {
-                row_buffer.push(photos[index++]);
+                rowBuffer.push(images[index++]);
             }
 
-            for (j = 0; j < row_buffer.length; j++) {
-                summed_ratios += row_buffer[j].aspect_ratio;
+            for (j = 0; j < rowBuffer.length; j++) {
+                summedRatios += rowBuffer[j].aspectRatio;
             }
 
-            for (j = 0; j < row_buffer.length; j++) {
-                var photo = row_buffer[j];
-                summed_width += parseInt(container_width / summed_ratios * photo.aspect_ratio);
-                photo.resize(parseInt(container_width / summed_ratios * photo.aspect_ratio, 10), parseInt(container_width / summed_ratios, 10));
+            for (j = 0; j < rowBuffer.length; j++) {
+                var image = rowBuffer[j];
+                image.width = parseInt(options.containerWidth / summedRatios * photo.aspectRatio, 10);
+                image.height = parseInt(options.containerWidth / summedRatios, 10);
             }
         }
     }
+
+    return images;
 };
