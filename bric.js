@@ -242,7 +242,7 @@ var bricLayoutFitPics = function(images, options) {
     images[i].totalHeight = images[i].height + 2 * options.spacing + 2 * options.border;
   }
 
-  var box = bric_layout(images, layout);
+  var box = bricLayout(images, layout);
   box = bricLayoutScaleBox(box, options);
   return bricLayoutCreateTree(box, options);
 };

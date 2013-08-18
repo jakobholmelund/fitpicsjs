@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <div id="image-container" style="position:relative;float:left">
+            <img src="img/Liquid_Ink_V1_1090.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1091.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1092.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1093.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1094.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1095.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1096.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1097.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1098.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1099.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1100.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1101.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1102.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1103.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1104.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1105.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1106.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1107.jpg" style="float:left">
+            <img src="img/Liquid_Ink_V1_1108.jpg" style="float:left">
+        </div>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+
+        <script src="../bric.js"></script>
+
+        <script>
+            $(window).load(function() {
+
+
+                var gallery_images = [];
+                var imageElems = $.each($('#image-container img'), function(index, image){
+                    var width = $(image).width();
+                    var height = $(image).height();
+
+                    gallery_images.push({
+                        originalImage: image,
+                        width: width,
+                        height: height
+                    });
+                });
+
+                var resized_images = bricLayoutFitPics(gallery_images, {
+                    width: $(window).width(),
+                    layout: "vertical",
+                    spacing: 4
+                });
+
+                //Bric algorithm returns a tree instead of a list.. Maybe we should pass in callbacks that handles the drawing !?
+
+                var drawBric = function(container, parent){
+                    if(container.hasOwnProperty("image")){
+                        var image_wrap = $('<div style="' + container.style + '"></div>');
+                        var new_image = $(container.image.image.originalImage).attr("style", container.image.style).height(container.image.height).width(container.image.width);
+                        image_wrap.append(new_image);
+                        parent.append(image_wrap);
+                    }else{
+                        var new_container = $('<div style="' + container.style + '"></div>');
+
+                        var child1 = drawBric(container.children[0], new_container);
+                        var child2 = drawBric(container.children[1], new_container);
+
+                        $(new_container).append(child1);
+                        $(new_container).append(child2);
+
+                        parent.append(new_container);
+                    }
+
+                    return container;
+                };
+
+                var testDiv = drawBric(resized_images, $('#image-container'));
+
+                $(document.body).append(testDiv);
+
+                console.log(testDiv);
+                
+            });
+        </script>
+    </body>
+</html>

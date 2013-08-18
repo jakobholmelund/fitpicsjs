@@ -138,15 +138,17 @@ var linearPartitionFitPics = function (images, options) {
 
     for (var i = 0; i < images.length; i++) {
         images[i].aspectRatio = images[i].width / images[i].height;
-        summedWidth += images[i].aspectRatio * options.preferedHeight;
+        summedWidth += images[i].aspectRatio * options.preferedImageHeight;
     }
 
     rows = Math.round(summedWidth / options.containerWidth);
 
+    console.log(rows);
+
     if (rows < 1) {
         for (i = 0; i < images.length; i++) {
-            images[i].width = parseInt(options.preferedHeight * photo.aspectRatio, 10);
-            images[i].height = options.preferedHeight;
+            images[i].width = parseInt(options.preferedImageHeight * photo.aspectRatio, 10);
+            images[i].height = options.preferedImageHeight;
         }
     } else {
         for (i = 0; i < images.length; i++) {
@@ -157,10 +159,10 @@ var linearPartitionFitPics = function (images, options) {
 
         for (i = 0; i < partition.length; i++) {
             var row = partition[i];
-            var rowWidth = container_width;
+            var rowWidth = options.containerWidth;
 
-            if(spacing){
-                rowWidth = options.containerWidth - (options.spacing * (row.length - 1));
+            if(options.spacing){
+                rowWidth = rowWidth - (options.spacing * (row.length - 1));
             }
 
             summedRatios = 0;
@@ -174,10 +176,11 @@ var linearPartitionFitPics = function (images, options) {
                 summedRatios += rowBuffer[j].aspectRatio;
             }
 
+
             for (j = 0; j < rowBuffer.length; j++) {
                 var image = rowBuffer[j];
-                image.width = parseInt(options.containerWidth / summedRatios * photo.aspectRatio, 10);
-                image.height = parseInt(options.containerWidth / summedRatios, 10);
+                image.width = parseInt(rowWidth / summedRatios * image.aspectRatio, 10);
+                image.height = parseInt(rowWidth / summedRatios, 10);
             }
         }
     }
