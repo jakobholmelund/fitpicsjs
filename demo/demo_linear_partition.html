@@ -68,11 +68,15 @@
 
                 var resized_images = linearPartitionFitPics(gallery_images, {
                     containerWidth: $(window).width(),
-                    preferedImageHeight: parseInt($(window).height() / 2, 10)
+                    preferedImageHeight: parseInt($(window).height() / 2, 10),
+                    spacing: 4
                 });
 
                 $.each(gallery_images, function(index, image){
-                    $(image.originalImage).height(image.height).width(image.width);
+                    $(image.originalImage).height(image.height).width(image.width).css("margin-bottom", 4);;
+                    if(!image.break){
+                        $(image.originalImage).css("margin-right", 4);
+                    }
                 });
             });
         </script>

@@ -181,6 +181,9 @@ var linearPartitionFitPics = function (images, options) {
                 var image = rowBuffer[j];
                 image.width = parseInt(rowWidth / summedRatios * image.aspectRatio, 10);
                 image.height = parseInt(rowWidth / summedRatios, 10);
+                if(j === rowBuffer.length - 1){
+                    image.break = true;
+                }
             }
         }
     }
