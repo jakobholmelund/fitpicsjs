@@ -1,6 +1,11 @@
 fitpicsjs
 =========
 
+!!! Attention !!!
+
+This is not finished, the algorithms work just fine, bud all the drawing and smoothnes is not here yet.. Feel free too contribute ! this is open source baby !
+
+
 Create Beautiful image galleries with pure JavaScript, with no dependencies.
 
 Currently supporting two strategies:
@@ -13,28 +18,9 @@ You pass in a list of image objects, and you get back a list of image objects wi
 
 
 1. Usage
-=========
+---------
 
-options = {
-    containerWidth: int,
-    preferedImageHeight: int,
-    border: int,
-    spacing: int
-}
-
-linearPartitionFitPics(images, options);
-
-options = {
-    width: int*,
-    height: int*,
-    spacing: int,
-    border: int,
-    layout: "horizontal" | "vertical"
-}
-
-* Mutual Exclusive
-
-bricLayoutFitPics(images, options);
+check demo files, this will be much smoother in the future..
 
 
 
