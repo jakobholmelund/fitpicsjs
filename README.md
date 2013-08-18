@@ -3,7 +3,7 @@ fitpicsjs
 
 !!! Attention !!!
 
-This is not finished, the algorithms work just fine, bud all the drawing and smoothnes is not here yet.. Feel free too contribute ! this is open source baby !
+The algorithms work just fine, but all the drawing and smoothnes is not here yet.. Feel free too contribute ! this is open source baby !
 
 
 Create Beautiful image galleries with pure JavaScript, with no dependencies.
