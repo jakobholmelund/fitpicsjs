@@ -6,7 +6,7 @@ fitpicsjs
 The algorithms work just fine, but all the drawing and smoothnes is not here yet.. Feel free too contribute ! this is open source baby !
 
 
-Create Beautiful image galleries with pure JavaScript, with no dependencies.
+Create Beautiful image galleries with pure JavaScript. No dependencies.
 
 Currently supporting two strategies:
  - Linear Partition
