@@ -6,14 +6,14 @@ var bricLayout = function(images, type) {
     var images1 = images2.splice(0, Math.floor(count / 2));
 
     box = {
-        type: 'box',
-        box_type: type ? 'vertical' : 'horizontal',
-        pixelCheck: false,
-        leafs: {
-            one: bricLayout(images1, !type),
-            two: bricLayout(images2, !type)
-        }
-      };
+      type: 'box',
+      box_type: type ? 'vertical' : 'horizontal',
+      pixelCheck: false,
+      leafs: {
+          one: bricLayout(images1, !type),
+          two: bricLayout(images2, !type)
+      }
+    };
 
     box.leafs.one.parentBoxType = box.leafs.two.parentBoxType = box.box_type;
 
@@ -26,7 +26,7 @@ var bricLayout = function(images, type) {
       dimensions = {
         width: box.leafs.one.totalWidth
       };
-    }else {
+    } else {
       dimensions = {
         height: box.leafs.one.totalHeight
       };
@@ -38,7 +38,7 @@ var bricLayout = function(images, type) {
       // Horizontal contact; vertical box type.
       box.totalHeight = box.leafs.one.totalHeight + box.leafs.two.totalHeight;
       box.totalWidth = box.leafs.one.totalWidth;
-    }else {
+    } else {
       // Vertical contact; horizontal box type.
       box.totalWidth = box.leafs.one.totalWidth + box.leafs.two.totalWidth;
       box.totalHeight = box.leafs.one.totalHeight;
@@ -50,8 +50,7 @@ var bricLayout = function(images, type) {
     box.leafs.one.siblingsTotalHeight = box.leafs.two.totalHeight;
     box.leafs.two.siblingsTotalWidth = box.leafs.one.totalWidth;
     box.leafs.two.siblingsTotalHeight = box.leafs.one.totalHeight;
-
-  }else if (count === 1) {
+  } else if (count === 1) {
     box = images.pop();
   }
 
@@ -61,7 +60,7 @@ var bricLayout = function(images, type) {
 var bricLayoutScaleBox = function(box, dimensions) {
   var dimensions1, dimensions2;
 
-// If it is an image - just resize it (change dimensions).
+  // If it is an image - just resize it (change dimensions).
   if (box.type == 'image') {
     if (dimensions.hasOwnProperty('width')) {
       box.totalHeight = (dimensions.width / box.totalWidth) * box.totalHeight;
@@ -71,6 +70,7 @@ var bricLayoutScaleBox = function(box, dimensions) {
       box.totalWidth = (dimensions.height / box.totalHeight) * box.totalWidth;
       box.totalHeight = dimensions.height;
     }
+
     return box;
   }
 
@@ -179,7 +179,7 @@ var bricLayoutCreateTree = function(box, options) {
 
     output = imageWrapper;
 
-  }else if (box.type == 'box') {
+  } else if (box.type == 'box') {
     var newContainer = {
       style: 'float:left;width: ' + Math.floor(box.totalWidth) + 'px;height:' + Math.floor(box.totalHeight) + 'px;',
       children: [bricLayoutCreateTree(box.leafs.one, options), bricLayoutCreateTree(box.leafs.two, options)]
@@ -228,11 +228,11 @@ var bricLayoutFitPics = function(images, options) {
   options.spacing = options.spacing || 0;
   var layout;
 
-  if(options.layout === "vertical"){
+  if (options.layout === "vertical") {
     layout = false;
-  }else if(options.layout === "vertical"){
+  } else if (options.layout === "vertical") {
     layout = true;
-  }else{
+  } else {
     layout = false;
   }
 
