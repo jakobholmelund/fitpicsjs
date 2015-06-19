@@ -230,7 +230,7 @@ var bricLayoutFitPics = function(images, options) {
 
   if(options.layout === "vertical"){
     layout = false;
-  }else if(options.layout === "vertical"){
+  }else if(options.layout === "horizontal"){
     layout = true;
   }else{
     layout = false;
