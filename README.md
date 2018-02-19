@@ -23,4 +23,9 @@ You pass in a list of image objects, and you get back a list of image objects wi
 check demo files, this will be much smoother in the future..
 
 
+2. Demo
 
+
+[Linear Partition](http://jakobholmelund.github.io/fitpicsjs/demo/demo_linear_partition.html)
+
+[BRIC](http://jakobholmelund.github.io/fitpicsjs/demo/demo_bric.html)
