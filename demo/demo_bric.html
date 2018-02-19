@@ -39,9 +39,9 @@
                   return Math.round(Math.random() * (max - min) + min);
                 }
                 var gallery_images = [];
-                for (var i = 0; i < 25; i++) {
-                  var width = getRandomSize(200, 400);
-                  var height =  getRandomSize(200, 400);
+                for (var i = 0; i < 50; i++) {
+                  var width = getRandomSize(200, 1000);
+                  var height =  getRandomSize(200, 1000);
                   var image = $('#image-container').append('<img width="'+width+'" height="'+height+'" style="float:left" src="//www.lorempixel.com/'+width+'/'+height+'/cats" alt="pretty kitty">');
                   gallery_images.push({
                         originalImage: image,
