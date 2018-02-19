@@ -23,25 +23,7 @@
 
         <!-- Add your site or application content here -->
         <div id="image-container" style="position:relative;float:left">
-            <img src="img/Liquid_Ink_V1_1090.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1091.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1092.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1093.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1094.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1095.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1096.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1097.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1098.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1099.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1100.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1101.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1102.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1103.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1104.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1105.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1106.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1107.jpg" style="float:left">
-            <img src="img/Liquid_Ink_V1_1108.jpg" style="float:left">
+ 
         </div>
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -53,7 +35,15 @@
 
         <script>
             $(window).load(function() {
+                function getRandomSize(min, max) {
+                  return Math.round(Math.random() * (max - min) + min);
+                }
 
+                for (var i = 0; i < 25; i++) {
+                  var width = getRandomSize(200, 400);
+                  var height =  getRandomSize(200, 400);
+                  $('#photos').append('<img style="float:left" src="//www.lorempixel.com/'+width+'/'+height+'/cats" alt="pretty kitty">');
+                }
 
                 var gallery_images = [];
                 var imageElems = $.each($('#image-container img'), function(index, image){
