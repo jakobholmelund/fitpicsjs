@@ -38,24 +38,25 @@
                 function getRandomSize(min, max) {
                   return Math.round(Math.random() * (max - min) + min);
                 }
-
+                var gallery_images = [];
                 for (var i = 0; i < 25; i++) {
                   var width = getRandomSize(200, 400);
                   var height =  getRandomSize(200, 400);
-                  $('#image-container').append('<img width="'+width+'" height="'+height+'" style="float:left" src="//www.lorempixel.com/'+width+'/'+height+'/cats" alt="pretty kitty">');
-                }
-
-                var gallery_images = [];
-                var imageElems = $.each($('#image-container img'), function(index, image){
-                    var width = $(image).width();
-                    var height = $(image).height();
-
-                    gallery_images.push({
+                  var image = $('#image-container').append('<img width="'+width+'" height="'+height+'" style="float:left" src="//www.lorempixel.com/'+width+'/'+height+'/cats" alt="pretty kitty">');
+                  gallery_images.push({
                         originalImage: image,
                         width: width,
                         height: height
                     });
-                });
+                }
+
+                
+                //var imageElems = $.each($('#image-container img'), function(index, image){
+                //    var width = $(image).width();
+                //    var height = $(image).height();
+
+                    
+                //});
 
                 var resized_images = bricLayoutFitPics(gallery_images, {
                     width: $(window).width(),
